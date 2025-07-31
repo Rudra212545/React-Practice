@@ -5,6 +5,7 @@ function App() {
   const [length, setLength] = useState(8);
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [characterAllowed, setCharacterAllowed] = useState(false);
+  const [copyClicked, setCopyClicked] = useState(false)
   const [password, setPassword] = useState("");
 
   // useRef hook 
@@ -31,12 +32,12 @@ function App() {
     passwordRef.current?.select()
     passwordRef.current?.setSelectionRange(0,8)
     window.navigator.clipboard.writeText(password)
+ 
+    setCopyClicked((prev)=> !prev);
+    console.log(copyClicked);
 
-    // document.querySelector(".para").innerHTML="Text copied to Clipboard!"
+  },[password,copyClicked])
 
-    // con/sole.log(para);
-
-  },[password])
 
   useEffect(() => {
     passwordGenerator()
@@ -49,7 +50,7 @@ function App() {
       <div className="flex flex-col gap-5">
       <div className="flex  w-full">
      <input type="text" id="input" className="bg-white w-[400px] rounded-l-md text-orange-400 p-2 font-semibold  tracking-wide" value={password} readOnly ref={passwordRef} />
-     <button onClick={copyPasswordToClipboard}
+     <button onClick={copyPasswordToClipboard }
       className="bg-green-500 hover:bg-blue-700 text-white font-bold p-2 rounded-r-md">
         Copy
       </button>
@@ -75,13 +76,14 @@ function App() {
     }}   />
       <label htmlFor="char" className="text-orange-500">Characters</label>
      </div>
-      
-      
      </div>
       </div>
-      {/* <div>
-      <p className="text-orange-400 text-center text-md para"></p>
-     </div> */}
+      {copyClicked && (
+        <p className="text-orange-400 text-center text-md para">
+          Copied to clipboard!
+        </p>
+      )}
+
     </div>`
    </div>
   )
